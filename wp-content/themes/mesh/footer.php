@@ -4,7 +4,7 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="twelve columns">
+			<div class="twelve columns shaun">
 				<nav class="main-navigation">
 					<?php wp_nav_menu( array('menu_id' => 'footer-menu', 'theme_location' => 'footer-menu') ); ?>
 				</nav>
