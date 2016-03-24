@@ -4,15 +4,23 @@
 
 get_header(); ?>
 
-<main id="main" class="site-main" role="main">
+<main id="main" class="site-main">
 
-  <div class="container home" id="home">
+  <div class="container home" id="home" >
 
-    <div class="content">
-      <div class=""><!-- twelve columns -->
-        <?php if (have_rows('greeting_panel')) :
-              while (have_rows('greeting_panel')) : the_row();        
+    <?php if (have_rows('greeting_panel')) :
+              while (have_rows('greeting_panel')) : the_row();  
+
+              //variables  
+              $hp_background = get_sub_field('hp_background');
+              $hp_background_URL = $hp_background['url'];
+              //var_dump($hp_background_URL);
+
         ?>
+
+    <div class="content" style="background-image:url('<?php echo $hp_background_URL; ?>')">
+      <div class=""><!-- twelve columns -->
+        
 
         <div class="greeting">
           <h1>
@@ -25,6 +33,21 @@ get_header(); ?>
           </p>
         </div>
 
+
+        <ul class="home_icons">
+        <?php while (have_rows('greeting_icons')) : the_row(); 
+
+          $hp_g_icon = get_sub_field('hp_g_icon');
+          $hp_g_icon_URL = $hp_g_icon['url'];
+          $hp_g_icon_ALT = $hp_g_icon['alt'];
+        ?>
+
+        <?php if($hp_g_icon != ''){ ?>
+            <li><img src="<?php echo $hp_g_icon_URL; ?>" alt="<?php echo $hp_g_icon_ALT; ?>"> </li>
+        <?php } ?>
+        
+      <?php endwhile; ?>
+    </ul>
           <?php if (have_rows('greeting_button')) :
                 while (have_rows('greeting_button')) : the_row(); 
 
@@ -35,7 +58,7 @@ get_header(); ?>
           ?>
               <div class="button sm">
                 <a href="<?php echo $gb_link ?>" class='btn'>
-                  Contact
+                  <?php echo $gb_text?>
                 </a>
               </div>
 
@@ -45,12 +68,12 @@ get_header(); ?>
 
         <div class="down">
           <a href="#services">
-            <img class="down_arrow" src="<?php echo get_template_directory_uri('/')?>/img/down_arrow.png">
+            <img class="down_arrow" alt="Click here to proceed to the next panel of the webpage" src="<?php echo get_template_directory_uri('/')?>/img/down_arrow.png">
           </a>
         </div>
 
       </div> <!-- end columns -->
-    </div> <!-- end row -->
+    </div> <!-- end content -->
 
   </div> <!-- end container -->
    <div class="container" id="services">
@@ -80,12 +103,12 @@ get_header(); ?>
             ?>
 
             <div class="panel_banner" style="background-image:url('<?php echo $sp_banner_url; ?>')" >
-              <div class="banner_overlay_color"></div>
+              <div class="banner_overlay_color" aria-hidden="true"></div>
               <div class="banner_overlay_text">
                 <div class="content">
                   <h2>
                     <?php echo $sp_bot ?>
-                  <h2>
+                  </h2>
                 </div>
               </div> 
             </div>
@@ -96,7 +119,7 @@ get_header(); ?>
               <div class="line"></div>
             </div>
             <div class="row">
-            <div class="container grid">
+            <div class="container grid eh">
               
             <?php //Services grid loop
 
@@ -115,17 +138,48 @@ get_header(); ?>
                   $grid_image_alt = $grid_image['alt'];
                   $sp_grid_title = get_sub_field('sp_grid_title');
                   $sp_grid_text = get_sub_field('sp_grid_statement');
+                  $sp_grid_link = get_sub_field('sp_grid_link');
+
+                  // if($grid_ctr <= 3){
+                  //   $border_class = 'border-bottom';
+                  // }
             ?>
 
-            <article class="grid_block-<?php echo $grid_ctr; ?> four columns">
+            <?php if ($sp_grid_link != '') { ?>
+
+            <a href="<?php echo $sp_grid_link; ?>">
+
+            <?php } ?>
+
+            <article class="grid_block-<?php echo $grid_ctr; ?> <?php if($grid_ctr <= 3){echo $border_class; }?> four columns">
               <div class="content">
                 <img src="<?php echo $grid_image_url ?>" alt="<?php $grid_image_alt ?>">
                 <h3><?php echo $sp_grid_title; ?></h3>
                 <p><?php echo $sp_grid_text; ?></p>
+
+                 <?php if ($sp_grid_link != '') { ?>
+                   <div class="read-more">
+                    Read more
+                  </div>
+                <?php } ?>
+
               </div>
             </article>
 
-            <?php endwhile; endif; ?>
+            <?php if ($sp_grid_link != '') { ?>
+
+            </a>
+
+            <?php } ?>
+
+
+            <?php endwhile;
+
+            if($grid_ctr <= 3){
+                    $border_class = 'border-bottom';
+                  }
+
+             endif; ?>
               </div><!-- end row -->
             </div><!-- end container grid -->
 
@@ -157,19 +211,19 @@ get_header(); ?>
           ?>
 
           <div class="panel_banner" style="background-image:url('<?php echo $rp_banner_url; ?>')" >
-              <div class="banner_overlay_color"></div>
+              <div class="banner_overlay_color" aria-hidden="true"></div>
               <div class="banner_overlay_text">
                 <div class="content">
                   <h2>
                     <?php echo $rp_bot ?>
-                  <h2>
+                  </h2>
                 </div>
               </div> 
             </div>
 
           <?php endwhile; endif; ?>
 
-          <div class="rp_columns">
+          <div class="rp_columns eh">
             <div class="row">
 
               <div class="four columns first">
@@ -236,12 +290,14 @@ get_header(); ?>
       </div> <!-- end columns -->
 
     </div> <!-- end row -->
-
+     <div class="separator" aria-hidden="true">
+              <div class="line"></div>
+            </div>
   </div> <!-- end container -->
    <div class="container" id="clients">
 
     <div class="row">
-      <div class=""><!-- twelve columns -->
+      <div class="content"><!-- twelve columns -->
 
         <?php if (have_rows('clients_panel')) : 
               while(have_rows('clients_panel')) : the_row();
@@ -253,11 +309,34 @@ get_header(); ?>
               $clp_title = get_sub_field('clp_title');
               $clp_text = get_sub_field('clp_statement');
 
+
         ?>
+
+           <!--  <div class="separator" aria-hidden="true">
+              <div class="line"></div>
+            </div> -->
+
           <h2><?php echo $clp_title; ?></h2>
-          <img class="map" src="<?php echo $clp_map_image_URL; ?>" alt="<?php $clp_map_image_ALT; ?>">
+         
+
+         
+       
           <p><?php echo $clp_text; ?></p>
 
+           <?php if (have_rows('clp_button')) :
+                while (have_rows('clp_button')) : the_row();
+                  $clp_bt = get_sub_field('clpb_text');
+                  $clp_bl = get_sub_field('clpb_link');
+
+                  if($clp_bt != ''){ ?>
+          <div class="button sm">
+                <a href="<?php echo $clp_bl; ?>" class='btn'>
+                  <?php echo $clp_bt; ?>
+                </a>
+              </div>
+          <?php } ?>
+
+           <?php endwhile; endif; ?>
 
         <?php endwhile; endif; ?>
 
@@ -270,8 +349,8 @@ get_header(); ?>
     <div class="row">
       <div class=""><!-- twelve columns -->
 
-        <?php if (have_rows('management_panel')) :
-              while (have_rows('management_panel')) : the_row() 
+        <?php //if (have_rows('management_panel')) :
+              //while (have_rows('management_panel')) : the_row() 
 
         ?>
 
@@ -285,12 +364,12 @@ get_header(); ?>
           ?>
 
           <div class="panel_banner" style="background-image:url('<?php echo $mp_banner_url; ?>')" >
-              <div class="banner_overlay_color"></div>
+              <div class="banner_overlay_color" aria-hidden="true"></div>
               <div class="banner_overlay_text">
                 <div class="content">
                   <h2>
                     <?php echo $mp_bot ?>
-                  <h2>
+                  </h2>
                 </div>
               </div> 
             </div>
@@ -302,7 +381,7 @@ get_header(); ?>
             </div>
 
           <div class="row">
-            <div class="container grid">
+            <div class="container grid eh">
 
           <?php if (have_rows('mp_grid')) :
 
@@ -320,9 +399,16 @@ get_header(); ?>
                 $mp_grid_title = get_sub_field('mp_mg_title');
                 $mp_grid_desc = get_sub_field('mp_mg_description');
                 $mp_grid_bio_link = get_sub_field('mp_mg_link');
+                //var_dump('$mp_grid_desc');
           ?>
 
-            <article class="grid_block-<?php echo $mp_ctr; ?> four columns">
+            <?php if(!empty ($mp_grid_bio_link)){ ?>
+              <a href="<?php echo $mp_grid_bio_link ?>">
+
+            <?php } ?>
+
+
+            <article class="grid_block-<?php echo $mp_ctr; ?> six columns">
               <div class="content">
                 <div class="portrait">
                   <img src="<?php echo $mp_grid_image_URL; ?>" alt="<?php $mp_grid_image_ALT; ?>">
@@ -331,19 +417,26 @@ get_header(); ?>
                 <h4 class="title"><?php echo $mp_grid_title; ?></h4>
                 <p><?php echo $mp_grid_desc; ?></p>
                 <div class="read-more">
-                  <a href="<?php echo $mp_grid_bio_link ?>">
-                    Read more 
-                    <span aria-hidden="true">&raquo;&raquo;</span>
+                  
+                    <?php if (!empty ($mp_grid_bio_link)){ ?>
+                    Read bio
                     <span class="sr-only">about <?php echo $mp_grid_name; ?></span>
-                  </a>
+                    <?php } ?>
+
                 </div>
               </div>
             </article>
 
+            <?php if(!empty ($mp_grid_bio_link)){ ?>
+              </a>
+
+            <?php } ?>
+
+
           <?php endwhile; endif; ?>
         </div>
       </div>
-        <?php endwhile; endif; ?>
+        <?php //endwhile; endif; ?>
 
       </div> <!-- end columns -->
     </div> <!-- end row -->
@@ -354,23 +447,23 @@ get_header(); ?>
     <div class="row">
       <div class="content"><!-- twelve columns -->
 
-        <?php if (have_rows('contact_panel')) :
-              while (have_rows('contact_panel')) : the_row();
+        <?php //if (have_rows('contact_panel')) :
+              //while (have_rows('contact_panel')) : the_row();
 
               //variables
-              $ctcp_callout = get_sub_field('ctcp_callout');
+              $ctcp_callout = get_field('ctcp_callout');
               $ctcb_link = get_sub_field('ctcp_link');
         ?>
 
         <h2><?php echo $ctcp_callout ?></h2>
 
               <div class="button lg">
-                <a href="<?php echo $ctcb_link ?>" class='btn'>
+                <a href="<?php echo esc_url( home_url( '/' ) ); ?>contact" class='btn'>
                   Contact
                 </a>
               </div>
 
-        <?php endwhile; endif ?>
+        <?php //endwhile; endif ?>
 
       </div> <!-- end columns -->
     </div> <!-- end row -->

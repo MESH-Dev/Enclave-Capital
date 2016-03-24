@@ -63,24 +63,28 @@ $brandon: "brandon-grotesque", sans-serif;
 	font-family: "Quarto A", "Quarto B";
 	font-style: normal;
 	font-weight: 400;
+	letter-spacing: .035em;
 }
 
 @mixin quarto_med_it{
 	font-family: "Quarto A", "Quarto B";
 	font-style: italic;
 	font-weight: 400;
+	letter-spacing: .035em;
 }
 
 @mixin quarto_bold{
 	font-family: "Quarto A", "Quarto B";
 	font-style: normal;
 	font-weight: 700;
+	letter-spacing: .035em;
 }
 
 @mixin quarto_bold_it{
 	font-family: "Quarto A", "Quarto B";
 	font-style: italic;
 	font-weight: 700;
+	letter-spacing: .035em;
 }
 
 
@@ -90,10 +94,16 @@ body{
 	font-size:100%;
 	color: $font_color;
 	@include brandon_reg;
+	letter-spacing:.015em;
+}
+
+h1, h2, h3, h4{
+	line-height:1.125;
 }
 
 p{
 	font-size:16px;
+	line-height:1.35;
 }
 
 h1{
@@ -136,8 +146,8 @@ h2{
 }
 
 .logo{
-	width:95%;
-	margin:0 auto;
+	width:85%;
+	margin:20px auto;
 
 	img{
 		max-width:100%;
@@ -146,10 +156,12 @@ h2{
 
 header{
 	background-color: $header_color;
-	width:25%;
+	width:20%;
 	position:fixed;
 	height:100%;
 	color:white;
+	//min-width:227px;
+	//z-index:10;
 
 	nav.main-navigation{
 
@@ -160,12 +172,36 @@ header{
 				float:none;
 				display:inline;
 
+				ul{
+					position:relative;
+					float:none;
+					left:0;
+					margin:0;
+					margin-left:20px;
+					box-shadow:none;
+					//display:none;
+					top:0;
+
+					li{
+						a{
+							font-size:20px;
+							@include brandon_reg;
+						}
+
+						&.current-menu-item{
+							a{
+								color:$footer_color;
+							}
+						}
+					}
+				}
+
 				a{
 					color:white;
 					@include brandon_reg;
 					font-size:36px;
 
-					&:hover{
+					&:hover, &.active{
 						opacity:.7;
 					}
 				}
@@ -175,7 +211,7 @@ header{
 }
 
 #main, footer{
-	padding-left:25%;
+	padding-left:20%;
 }
 
 // Panels
@@ -189,7 +225,7 @@ header{
 	}
 
 	h1{
-		@include quarto_bold;
+		@include brandon_bold;
 	}
 
 }
@@ -201,6 +237,15 @@ header{
 
 		p{
 		text-align:center;
+		font-size:24px;
+		margin:0;
+		// padding-bottom:2em;
+		}
+	}
+
+.home_icons{
+		li{
+			display:inline;
 		}
 	}
 
@@ -257,26 +302,47 @@ header{
 		h2{
 			width:80%;
 			margin:0 auto;
-			@include quarto_bold;
+			@include brandon_bold;
 		}
 	}
 }
 
 .separator{
-	margin-bottom:20px;
+	//margin-bottom:20px;
+	// background-image:url('img/separator_img.png');
+	// background-repeat:repeat-x;
+	// height:5px;
 
 	.line{
 		width:40%;
 		// margin:0 auto;
-		border-bottom:4px dashed $header_color;
-		margin:20px auto;
+		//border-bottom:4px dashed $header_color;
+		margin:35px auto;
+		background-image:url('img/separator_img.png');
+		background-repeat:repeat-x;
+		height:5px;
 	}
+}
+
+h1.bc {
+    position: absolute;
+    top: 20px;
+    font-size: 24px;
+    margin-left: 20px;
+    @include brandon_bold;
 }
 
 //Grids
 *[class^='grid_block']{
-	border-top:1px solid $header_color;
+	//border-top:1px solid $header_color;
+	border-bottom:1px solid $header_color;
 	text-align:center;
+	overflow:hidden;
+
+	&.six.columns{
+		width:50%;
+		margin:0;
+	}
 
 	&.four.columns{
 		margin:0;
@@ -292,13 +358,25 @@ header{
 		max-width:60%;
 		height:auto;
 		}
+
+		p{
+			margin-bottom:70px;
+		}
 	}
 
 	
 }
 
-*[class^='grid_block']:nth-child(2),
-*[class^='grid_block']:nth-child(5){
+#services .grid_block-1,
+#services .grid_block-2,
+#services .grid_block-3{
+	border-top:1px solid $header_color;
+}
+
+// *[class^='grid_block']:nth-child(2),
+*[class^='grid_block']:nth-child(5), 
+#services .grid_block-2,
+#services .grid_block-8{
 	border-left: 1px solid $header_color;
 	border-right: 1px solid $header_color;
 }
@@ -308,8 +386,21 @@ header{
 	//border-right:1px soild $header_color;
 }
 
-*[class^='grid_block']:nth-child(n+4){
-	border-bottom:1px solid $header_color;
+*[class^='grid_block']:nth-child(n+4),
+#services .grid_block-4,
+#services .grid_block-5,
+#services .grid_block-6{
+	//border-bottom:1px solid $header_color;
+}
+
+*.read-more{
+	position:absolute;
+	bottom:15px;
+	right:-300px;
+	border:1px solid white;
+	//background:inherit;
+	//color:inherit;
+	padding:5px 10px;
 }
 
 //================================================
@@ -318,7 +409,7 @@ header{
 
 .button{
 	text-align:center;
-	margin:45px 0;
+	margin:65px 0;
 
 	&.lg .btn{
 		font-family:$brandon;
@@ -329,7 +420,7 @@ header{
 	&.sm .btn{
 		font-family:$brandon;
 		font-size:24px;
-		padding: 10px;
+		padding: 10px 15px;
 	}
 
 	.btn{
@@ -358,7 +449,7 @@ a.btn{
 
 .rp_columns {
 
-	margin:20px 0;
+	margin:5em 0;
 
 	.first{
 		text-align:center;
@@ -372,11 +463,20 @@ a.btn{
 	.content{
 		width:90%;
 		margin:0 auto;
+
+		p{
+			font-size:20px;
+		}
 	}
 
-	.first .content {
-    transform: translateY(50%);
-}
+	.first {
+		.content {
+    		 //transform: translateY(40%);
+		}
+		p{
+			font-size:20px;
+		}
+	}	
 }
 
 // .first .content {
@@ -388,6 +488,42 @@ a.btn{
 //Services panel
 
 #services{
+	a *[class^="grid_block"]{
+		color:$font_color;
+		overflow:hidden;
+
+		&:hover {
+			background:$header-color;
+			color:white;
+			transition:all .2s ease-in-out;
+
+			img{
+				-webkit-filter: grayscale(100%) 
+          		brightness(200%)
+          		contrast(200%);
+  				filter: grayscale(100%) 
+          		brightness(200%)
+          		contrast(200%);
+			}
+
+			.read-more{
+			right:10px;
+			color: white;
+			background: $header-color;
+			transition:all .2s ease-in-out;
+
+				&:hover{
+					background:$font_color;
+					//right:10px;
+				}
+			}
+		}
+
+		&:active{
+			color:$font_color;
+		}
+	}
+
 	*[class^="grid_block"]{
 
 		cursor:pointer;
@@ -399,16 +535,17 @@ a.btn{
 		}
 
 		&:hover{
-			background:$header_color;
-			color:white;
+			// background:$header_color;
+			// color:white;
 
-			img{-webkit-filter: grayscale(100%) 
-          brightness(200%)
-          contrast(200%);
-  		filter: grayscale(100%) 
-          brightness(200%)
-          contrast(200%);}
-		}
+			img{
+				// -webkit-filter: grayscale(100%) 
+    //       brightness(200%)
+    //       contrast(200%);
+  		// filter: grayscale(100%) 
+    //       brightness(200%)
+    //       contrast(200%);
+		}}
 
 
 	}
@@ -418,35 +555,74 @@ a.btn{
 
 #management{
 
+	a:hover [class^="grid_block"]{
+		background-color:white;
+		color:$font-color;
+		transition:all .2s ease-in-out;
+
+		.read-more{
+			right:10px;
+			color: white;
+			background: $header-color;
+			transition:all .2s ease-in-out;
+
+			&:hover{
+				background:$font_color;
+			}
+		}
+	}
+
+	a:active [class^="grid_block"]{
+		background:$header_color;
+	}
+
 	*[class^="grid_block"]{
 		border:none;
 		height: 790px;
 		color:white;
 
-		&:hover{
-			background-color:white;
-			color:$font-color;
-		}
+		// &:hover{
+		// 	background-color:white;
+		// 	color:$font-color;
+		// }
 
 		img{
 			border-radius:50%;
 
 		}
 
+		h3, h4{
+			margin:0;
+		}
+
+		h3{
+			margin:10px 0;
+		}
+
+		p{
+			margin-top:15px;
+		}
+
 		h3, h4, p{
 			text-align:left;
+		}
+
+		h4{
+			text-transform:none;
 		}
 
 		.read-more{
 			text-align:right;
 
-			a{
-				color:white;
+			// a{
+			// 	color:white;
 
 				&:hover{
-				text-decoration:underline;
+				//text-decoration:underline;
+				// color: inherit;
+				// background: inherit;
 				}	
-			}
+			// }
 
 		}
 	}
@@ -454,30 +630,33 @@ a.btn{
 	.grid_block-1{
 		background-color:#198EDD;
 
-		&:hover{
-			border-top: 1px solid #198EDD;
-			border-bottom: 1px solid #198EDD;
-		}
+		
+	}
+
+	a:hover .grid_block-1{
+			//border-top: 1px solid #198EDD;
+			//border-bottom: 1px solid #198EDD;
 	}
 
 	.grid_block-2{
 		background-color:#1499F3;
 		
-		&:hover{
-			border-top: 1px solid #1499F3;
-			border-bottom: 1px solid #1499F3;
-		}
+		
 	}
+
+	a:hover .grid_block-2{
+			//border-top: 1px solid #1499F3;
+			//border-bottom: 1px solid #1499F3;
+		}
 
 	.grid_block-3{
 		background-color:#43ADF5;
-
-		&:hover{
-			border-top: 1px solid #43ADF5;
-			border-bottom: 1px solid #43ADF5;
-		}
-
 	}
+
+	a:hover .grid_block-3{
+			//border-top: 1px solid #43ADF5;
+			//border-bottom: 1px solid #43ADF5;
+		}
 
 }
 
@@ -489,9 +668,20 @@ a.btn{
 	// min-height:700px;
 	display:table;
 
+	.button{
+		margin-top:5em;
+		display:inline;
+		padding-right:30px;
+		
+	}
+
 	.content{
 		display:table-cell;
 		vertical-align:middle;
+		background-repeat:no-repeat;
+		background-size:cover;
+		background-position:center center;
+		text-align:center;
 	}
 }
 
@@ -502,19 +692,25 @@ a.btn{
 #clients{
 	text-align:center;
 
+	.content{
+		padding:12% 0;
+	}
+
 	.map{
 		width:95%;
 		margin:20px 0;
 	}
 
 	h2{
-		@include quarto_bold;
+		@include brandon_bold;
 		width:80%;
-		margin:0 auto;
+		margin:30px auto;
 	}
 
 	p{
 		font-size:20px;
+		width:80%;
+		margin:50px auto;
 	}
 }
 
@@ -528,12 +724,22 @@ a.btn{
 		padding:6% 0;
 	}
 
+	h2{
+		width:80%;
+		margin:0 auto;
+		@include brandon_bold;
+	}
+
 }
 
 //Interior
 
 .spi_columns{
-	margin:20px 0;
+	margin:5em 0;
+
+	.content{
+
+	}
 
 	.first{
 		border-right:1px solid $header-color;
@@ -541,20 +747,58 @@ a.btn{
 		.content{
 		width:90%;
 		margin:0 auto;
+
+			p{
+				font-size:20px;
+			}
 		}
 	}
 
 	.second{
 
-		
+		text-align:center;
+
+		.content{
+			width:95%;
+			margin:0 auto;
+		}
+
+		p{
+			font-size:24px;
+		}
+	}
+
+	.four.columns{
+		width:33.3333%;
+		margin:0;
+	}
+
+	.eight.columns{
+		width:66.6667%;
+		margin:0;
 	}
 }
 
-.tpi_grid{
+.home.interior {
+	h2{
+		@include brandon_bold;
+		padding-top:6%;
+	}
+
+	p{
+		max-width:60%;
+		margin:0 auto;
+		font-size:20px;
+		text-align:left;
+	}
+
+}
+#tpi_grid{
 
 	*[class^="grid_block"]{
 		text-align:center;
 		border-top:1px solid $header_color;
+		border-bottom:1px solid $header_color;
 
 		&:nth-child(even){
 			border-left:1px solid $header_color;
@@ -563,6 +807,67 @@ a.btn{
 
 		p{
 			text-align:left;
+		}
+	}
+}
+
+#connect{
+
+	margin:5em 0;
+
+	h2{
+		font-size:24px;
+		width:80%;
+		margin:0 auto;
+		margin-bottom:5em;
+	}
+
+}
+
+.error404 #home{
+	text-align:center
+}
+
+//Contact form
+
+.contact-form, 
+.post-password-form{
+	width:80%;
+	margin:30px auto;
+	color:white;
+	border-radius:5px;
+	text-align:left;
+	background:$header_color;
+		border-radius:5px;
+		padding:10px;
+
+	p{
+		margin:20px 0 !important;
+		margin-left:1% !important;
+		width:80%;
+		font-size:20px !important;
+	}
+
+	form{
+		
+	}
+
+	input, textarea{
+		background:white;
+		color:$header-color;
+		width:80%;
+		margin:0 10px;
+		border-radius:5px;
+	}
+
+	input[type='submit']{
+		width:100px;
+		margin:20px 10px;
+		//text-align:left;
+
+		&:hover{
+			background:$font_color;
+			color:white;
 		}
 	}
 }
@@ -579,6 +884,75 @@ footer{
 	// height:$footer_size;
 	// position:absolute;
 
+	h3{
+		margin-bottom:5px;
+		font-size:24px;
+		@include brandon_reg;
+	}
+
+	ul{
+		li{
+			margin-left:20px;
+		a{
+		color:white;
+		font-size:18px;
+
+			&:hover{
+				opacity:.7;
+			}
+		}
+
+	}
+	}
+	.address, .phone{
+		display:table;
+		margin:20px 0;
+
+		.label{
+			padding-right:15px;
+		}
+
+		p{
+			display:table-cell;
+		}
+	}
+
+
+
+	.copyright{
+		text-align: center;
+		span{
+			display:block;
+			width:100%;
+		}
+		a{
+			color:white;
+
+			&:hover{
+				text-decoration:underline;
+			}
+		}
+
+		img{
+			padding-right:15px;
+			max-width:50px;
+		}
+	}
+}
+
+.the_content{
+	text-align:left;
+	padding-bottom:50px;
+	a{
+		color:$footer_color;
+	}
+
+	a:hover,
+	a:active,
+	a:focus{
+		color:$header_color;
+		text-decoration:underline;
+	}
 }
 
 //================================================
@@ -608,21 +982,141 @@ footer{
 //================================================
 
 
+.logo.desktop-hide img{padding-top:10px;}
+
 #wpadminbar{
 	position:fixed !important;
 	bottom:0;
 }
 
+.mobile-nav-trigger{
+	margin:10px;
+}
+
+.sidr-close{
+	font-size:28px;
+	@include brandon_reg;
+	text-align:right;
+	cursor:pointer;
+	padding-right:15px;
+
+	&:hover, &:active{
+		opacity:.7;
+	}
+}
+
+.sidr{
+	background: $header_color !important;
+	box-shadow:none !important;
+
+	.sidr-inner{
+		margin-left:15px;
+		margin-top:15px;
+	}
+
+	a{
+		color:white;
+		font-size:36px;
+		@include brandon_reg;
+
+		&:hover{
+			opacity:.7;
+		}
+	}
+}
+
+.sidr ul {
+	border-bottom:none !important;
+	border-top:none !important;
+}
+
+.sidr ul li{
+	border:none !important;
+	border-top:none !important;
+	border-bottom: none !important;
+}
+
+.sidr .sub-menu a{
+	font-size:24px;
+}
+
+.sidr ul li:hover>a, 
+.sidr ul li:hover>span, 
+.sidr ul li.active>a, 
+.sidr ul li.active>span, 
+.sidr ul li.sidr-class-active>a, 
+.sidr ul li.sidr-class-active>span{
+	border:none !important;
+	box-shadow:none !important;
+}
+
+@media only screen and (max-width:1446px){
+	.site-footer{
+		.copyright{
+			text-align: center;
+			span{
+				display:block;
+				width:100%;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width:950px) and (min-width: 768px){
+	
+	header{
+		min-width:170px;
+	}
+
+	header nav.main-navigation ul li a{
+		font-size:28px;
+	}
+
+	.greeting h1{
+		font-size:66px;
+	}
+	.main-navigation ul ul a{
+		width:auto;
+	}
+}
 
 @media only screen and (max-width: 767px) {
 	*[class^="grid_block"]{
 
-		&.four.columns{
+		&.four.columns,
+		&.six.columns{
 		width:100%;
 		border-left:none;
 		border-right:none;
+		border-top:1px solid $header_color;
+		border-bottom:none;
 		}
 	}
+
+	.main-navigation ul ul a{
+		width:auto;
+	}
+
+	h1.bc{
+		position:relative;
+		padding-bottom: 50px;
+    	margin-top: 0;
+	}
+
+	 #services .grid_block-2 {
+	 	border-left:none;
+	 	border-right:none;
+	 }
+
+	 *[class^='grid_block']:nth-child(n+4), 
+	 #services .grid_block-4, 
+	 #services .grid_block-5, 
+	 #services .grid_block-6{
+	 	border-top:1px solid $header-color;
+	 	border-bottom:none;
+	 	border-right:none;
+	 	border-left:none;
+	 }
 
 	#main, footer{
 		padding-left:0;
@@ -638,7 +1132,7 @@ footer{
 		visibility:visible;
 	}
 
-	.first .content {
+	.rp_columns .first .content {
     	transform: translateY(0);
     	margin:20px 0;
 	}
@@ -646,20 +1140,20 @@ footer{
 		text-align:center;
 	}
 
-	.rp_columms{
+	.rp_columns{
 
-		&.second{
+		.second{
 
 			border-left:none;
 
 		}
 	}
 
-	.tpi_columms{
+	.spi_columns{
 
-		&.first{
+		.first{
 
-			border-left:none;
+			border-right:none;
 
 		}
 	}
@@ -689,6 +1183,44 @@ footer{
 	h2{
 		font-size:28px;
 	}
+
+	footer{
+		// text-align:center;
+	
+		.footer_nav{
+			text-align:center;
+
+			ul li{
+				margin-left:0;
+			}
+		}
+
+		.address .label,
+		.phone .label{
+			margin:10px 0;
+		}
+
+		.address p, .phone p{
+			display:block;
+			margin:0;
+		}
+
+		.address, .phone{
+			display:block;
+			text-align:center;
+		}
+
+		.copyright img{
+			padding-right:0;
+		}
+}
+
+.contact-form{
+
+	input, textarea{
+		width:95%;
+	}
+}
 
 }
 
